@@ -1,16 +1,26 @@
 package org.example.service.impl;
 
 import org.example.model.Book;
+import org.example.repository.LibraryRepository;
 import org.example.service.LibraryService;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class LibraryServiceImpl implements LibraryService {
-    private List<Book> books = new ArrayList<>();
+    private final LibraryRepository libraryRepository=LibraryRepository.getInstance();
+
+
     @Override
     public void addBook(Book book) {
-        books.add(book);
+        libraryRepository.addBook(book);
 
     }
+
+    public void printExpensiveBooks() {
+        libraryRepository.getBooks().stream()
+                .filter(book -> book.getPrice() > 15)
+                .map(Book::getBook_name)
+                .forEach(System.out::println);
+    }
+
 }
